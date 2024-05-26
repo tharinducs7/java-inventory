@@ -1,17 +1,35 @@
 package com.example.zookeeper;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import org.apache.zookeeper.KeeperException;
+
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-        //TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
-        // to see how IntelliJ IDEA suggests fixing it.
-        System.out.printf("Hello and welcome!");
+        try {
+            String zkAddress = "localhost:2181";
+            String lockBasePath = "/locks";
+            String lockName = "inventory_lock";
 
-        for (int i = 1; i <= 5; i++) {
-            //TIP Press <shortcut actionId="Debug"/> to start debugging your code. We have set one <icon src="AllIcons.Debugger.Db_set_breakpoint"/> breakpoint
-            // for you, but you can always add more by pressing <shortcut actionId="ToggleLineBreakpoint"/>.
-            System.out.println("i = " + i);
+            DistributedLock lock = new DistributedLock(zkAddress, lockBasePath, lockName);
+
+            System.out.println("Attempting to acquire lock...");
+            lock.acquireLock();
+            lock.waitForLock();
+            System.out.println("Lock acquired!");
+
+            // Perform critical section of code
+            System.out.println("Performing critical section of code");
+
+            // Simulate some work with the lock
+            Thread.sleep(5000);
+
+            // Release the lock
+            lock.releaseLock();
+            System.out.println("Lock released");
+
+        } catch (IOException | InterruptedException | KeeperException e) {
+            e.printStackTrace();
         }
     }
 }
