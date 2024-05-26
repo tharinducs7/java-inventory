@@ -11,6 +11,7 @@
 
     <groupId>com.example.zookeeper</groupId>
     <artifactId>zookeeper</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
