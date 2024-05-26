@@ -1,25 +1,22 @@
 package com.example.etcd;
+
 import java.io.IOException;
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.List;
+
 public class Main {
-    public static void main(String[] args) {
-        try {
-            String etcdAddress = "http://localhost:2379";
-            NameServiceClient nameServiceClient = new NameServiceClient(etcdAddress);
+    private static final String ETCD_ADDRESS = "http://localhost:2379";
+    private static final String SERVICE_NAME = "InventoryService";
 
-            // Register a service
-            String serviceName = "InventoryService";
-            String serviceAddress = "localhost:50051";
-            nameServiceClient.registerService(serviceName, serviceAddress);
-            System.out.println("Service registered successfully!");
+    public static void main(String[] args) throws IOException {
+        NameServiceClient nameServiceClient = new NameServiceClient(ETCD_ADDRESS);
 
-            // Discover the service
-            String discoveredAddress = nameServiceClient.discoverService(serviceName);
-            System.out.println("Discovered service address: " + discoveredAddress);
+        // Registering service example (you can modify this as per your requirement)
+        nameServiceClient.registerService(SERVICE_NAME, "localhost:50051");
 
-        } catch (IOException e) {
-            e.printStackTrace();
+        // Discovering services example
+        List<String> addresses = nameServiceClient.discoverServices(SERVICE_NAME);
+        for (String address : addresses) {
+            System.out.println("Discovered service address: " + address);
         }
     }
 }
