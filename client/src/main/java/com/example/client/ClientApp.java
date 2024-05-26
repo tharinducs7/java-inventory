@@ -5,8 +5,10 @@ import inventory.InventoryServiceGrpc.InventoryServiceBlockingStub;
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
 
+import java.util.concurrent.TimeUnit;
+
 public class ClientApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         String target = "localhost:50051";
         ManagedChannel channel = ManagedChannelBuilder.forTarget(target)
                 .usePlaintext()
@@ -17,6 +19,6 @@ public class ClientApp {
         InventoryClient client = new InventoryClient(blockingStub);
         client.run();
 
-        channel.shutdown();
+        channel.shutdown().awaitTermination(5, TimeUnit.SECONDS);
     }
 }

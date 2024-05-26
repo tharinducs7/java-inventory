@@ -4,11 +4,15 @@ public class Item {
     private String itemId;
     private String name;
     private int quantity;
+    private int reservedQuantity;  // Add reserved quantity field
+    private double price;
 
-    public Item(String itemId, String name, int quantity) {
+    public Item(String itemId, String name, int quantity, double price) {
         this.itemId = itemId;
         this.name = name;
         this.quantity = quantity;
+        this.reservedQuantity = 0;
+        this.price = price;
     }
 
     public String getItemId() {
@@ -33,5 +37,25 @@ public class Item {
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
+    }
+
+    public int getReservedQuantity() {
+        return reservedQuantity;
+    }
+
+    public void setReservedQuantity(int reservedQuantity) {
+        this.reservedQuantity = reservedQuantity;
+    }
+
+    public int getAvailableQuantity() {
+        return quantity - reservedQuantity;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
